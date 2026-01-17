@@ -19,22 +19,196 @@ body {
 .card {
   background: white;
   padding: 35px;
-  border-radius: 22px;
-  box-shadow: 0 20px 40px rgba(0,0,0,0.25);
-  max-width: 420px;
+  border-radius: 24px;
+  box-shadow: 0 25px 50px rgba(0,0,0,0.25);
+  max-width: 430px;
   width: 90%;
+  text-align: center;
+  position: relative;
+}
+
+.hidden { display: none; }
+
+h1 { color: #e63946; }
+p { font-size: 17px; color: #444; }
+
+input {
+  padding: 12px;
+  width: 80%;
+  border-radius: 20px;
+  border: 1px solid #ccc;
+  margin-top: 15px;
+  font-size: 16px;
   text-align: center;
 }
 
-.hidden {
-  display: none;
+button {
+  margin-top: 20px;
+  padding: 12px 28px;
+  border: none;
+  border-radius: 30px;
+  background: #e63946;
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
 }
 
-h1 {
-  color: #e63946;
+button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
 }
 
-input {
+.error { color: red; margin-top: 10px; }
+
+img {
+  width: 140px;
+  margin-bottom: 15px;
+}
+
+#no {
+  background: #ccc;
+  color: #333;
+  position: absolute;
+}
+
+.arrow {
+  position: absolute;
+  font-size: 30px;
+}
+</style>
+</head>
+
+<body>
+
+<!-- PAGE 1 -->
+<div class="card" id="page1">
+  <h1>Confidential Site</h1>
+  <p>Security clearance required</p>
+  <input type="password" id="passcode" placeholder="Enter passcode">
+  <br>
+  <button onclick="checkPass()">Enter</button>
+  <div class="error" id="passError"></div>
+</div>
+
+<!-- PAGE 2 -->
+<div class="card hidden" id="page2">
+  <h1>Security Question</h1>
+  <p>What’s Sammy’s favorite nickname?</p>
+  <input type="text" id="nickname" placeholder="Your answer">
+  <br>
+  <button onclick="checkNickname()">Submit</button>
+  <div class="error" id="nickError"></div>
+</div>
+
+<!-- PAGE 3 (Dummy) -->
+<div class="card hidden" id="page3">
+  <h1>Would you be my Valentine?</h1>
+  <button disabled>Yes</button>
+  <button disabled>No</button>
+  <p id="waitText">...</p>
+</div>
+
+<!-- PAGE 4 (Batman interrupt) -->
+<div class="card hidden" id="page4">
+  <img src="batman-shhh.png">
+  <h1>Shhh 🤫</h1>
+  <p>Before you choose…<br>I’d like to give you 5 reasons ❤️</p>
+  <button onclick="nextReason()">Okay</button>
+</div>
+
+<!-- REASONS -->
+<div class="card hidden" id="reasonPage">
+  <img id="reasonImg">
+  <h1 id="reasonTitle"></h1>
+  <p id="reasonText"></p>
+  <button onclick="nextReason()">Okay</button>
+</div>
+
+<!-- FINAL -->
+<div class="card hidden" id="finalPage">
+  <img src="final-cute.png">
+  <h1>Will you be my Valentine? ❤️</h1>
+  <button id="yes">Yes</button>
+  <button id="no">No</button>
+</div>
+
+<audio id="bgMusic" loop>
+  <source src="serena-song.mp3" type="audio/mpeg">
+</audio>
+
+<script>
+const music = document.getElementById("bgMusic");
+let reasonIndex = -1;
+let arrows = 0;
+
+const reasons = [
+  { img: "reason1.png", title: "Reason #1", text: "I already act like your Valentine all year 🙄, Valentine’s Day would just make it official." },
+  { img: "reason2.png", title: "Reason #2", text: "BECAUSE NOBODY LOVES YOU LIKE I DO 😠" },
+  { img: "reason3.png", title: "Reason #3", text: "My heart literally refuses to pick anyone else ❤️" },
+  { img: "reason4.png", title: "Reason #4", text: "I’m already yours, so choosing me just makes sense." },
+  { img: "reason5.png", title: "Reason #5", text: "I’ll spoil you with attention, love, chaos and gifts. I’m going ALL OUT." }
+];
+
+function checkPass() {
+  if (passcode.value.toLowerCase() === "pookie cookie") {
+    page1.classList.add("hidden");
+    page2.classList.remove("hidden");
+  } else passError.textContent = "Incorrect password";
+}
+
+function checkNickname() {
+  if (nickname.value.toLowerCase() === "pookie cookie") {
+    page2.classList.add("hidden");
+    page3.classList.remove("hidden");
+
+    music.volume = 0.25;
+    music.play();
+
+    setTimeout(() => {
+      page3.classList.add("hidden");
+      page4.classList.remove("hidden");
+    }, 5000);
+  } else nickError.textContent = "Incorrect answer";
+}
+
+function nextReason() {
+  if (reasonIndex === -1) {
+    page4.classList.add("hidden");
+    reasonPage.classList.remove("hidden");
+  }
+
+  reasonIndex++;
+
+  if (reasonIndex < reasons.length) {
+    reasonImg.src = reasons[reasonIndex].img;
+    reasonTitle.textContent = reasons[reasonIndex].title;
+    reasonText.textContent = reasons[reasonIndex].text;
+  } else {
+    reasonPage.classList.add("hidden");
+    finalPage.classList.remove("hidden");
+  }
+}
+
+// NO button chaos
+no.addEventListener("click", () => {
+  no.style.left = Math.random() * 250 + "px";
+  no.style.top = Math.random() * 150 + "px";
+
+  yes.style.transform = `scale(${1 + arrows * 0.15})`;
+
+  const arrow = document.createElement("div");
+  arrow.className = "arrow";
+  arrow.textContent = "➡️";
+  arrow.style.left = Math.random() * 300 + "px";
+  arrow.style.top = Math.random() * 200 + "px";
+  finalPage.appendChild(arrow);
+
+  arrows++;
+});
+</script>
+
+</body>
+</html>input {
   padding: 12px;
   width: 80%;
   border-radius: 20px;
