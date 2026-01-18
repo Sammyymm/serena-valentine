@@ -1,114 +1,136 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Confidential ❤️</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<title>Confidential ❤️</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <style>
-    * { box-sizing: border-box; }
+<style>
+* { box-sizing: border-box; }
 
-    body {
-      margin: 0;
-      min-height: 100vh;
-      background: linear-gradient(135deg, #ffdde1, #ee9ca7);
-      font-family: "Segoe UI", system-ui, sans-serif;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #ffdde1, #ee9ca7);
+  font-family: "Segoe UI", system-ui, sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 
-    .card {
-      background: white;
-      padding: 35px 30px;
-      border-radius: 24px;
-      box-shadow: 0 25px 50px rgba(0,0,0,0.25);
-      max-width: 430px;
-      width: 90%;
-      text-align: center;
-      position: relative;
-    }
+.card {
+  background: white;
+  padding: 35px 30px;
+  border-radius: 24px;
+  box-shadow: 0 25px 50px rgba(0,0,0,0.25);
+  max-width: 430px;
+  width: 90%;
+  text-align: center;
+  position: relative;
+}
 
-    .hidden { display: none; }
+.hidden { display: none; }
 
-    h1 {
-      color: #e63946;
-      margin-top: 0;
-    }
+h1 { color: #e63946; }
 
-    p {
-      font-size: 17px;
-      color: #444;
-    }
+p { font-size: 17px; color: #444; }
 
-    input {
-      padding: 12px;
-      width: 80%;
-      border-radius: 20px;
-      border: 1px solid #ccc;
-      margin-top: 15px;
-      font-size: 16px;
-      text-align: center;
-    }
+input {
+  padding: 12px;
+  width: 80%;
+  border-radius: 20px;
+  border: 1px solid #ccc;
+  margin-top: 15px;
+  font-size: 16px;
+  text-align: center;
+}
 
-    button {
-      margin-top: 15px;
-      padding: 12px 26px;
-      border: none;
-      border-radius: 30px;
-      background: #e63946;
-      color: white;
-      font-size: 16px;
-      cursor: pointer;
-    }
+button {
+  margin-top: 15px;
+  padding: 12px 26px;
+  border: none;
+  border-radius: 30px;
+  background: #e63946;
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+}
 
-    button.secondary {
-      background: #ccc;
-      color: #333;
-    }
+button.secondary {
+  background: #ccc;
+  color: #333;
+}
 
-    button:disabled {
-      opacity: 0.5;
-      cursor: not-allowed;
-    }
+button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
 
-    .error {
-      color: #e63946;
-      margin-top: 15px;
-      font-size: 15px;
-    }
+img {
+  width: 140px;
+  margin-bottom: 15px;
+}
 
-    img {
-      width: 140px;
-      margin-bottom: 15px;
-    }
+.error {
+  color: #e63946;
+  margin-top: 12px;
+  font-size: 15px;
+}
 
-    #no {
-      background: #ccc;
-      color: #333;
-      position: absolute;
-    }
+#noFinal {
+  background: #ccc;
+  color: #333;
+  position: absolute;
+}
 
-    .arrow {
-      position: absolute;
-      font-size: 28px;
-    }
-  </style>
+.fade {
+  opacity: 0;
+  animation: fadeIn 2s forwards;
+}
+
+.fade.delay {
+  animation-delay: 1.5s;
+}
+
+@keyframes fadeIn {
+  to { opacity: 1; }
+}
+
+#heartBtn {
+  font-size: 40px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  margin-top: 20px;
+}
+
+.corner-text {
+  position: absolute;
+  bottom: 15px;
+  right: 20px;
+  font-size: 13px;
+  color: #999;
+}
+
+@keyframes fall {
+  to {
+    transform: translateY(100vh);
+    opacity: 0;
+  }
+}
+</style>
 </head>
 
 <body>
 
 <!-- PAGE 1 -->
 <div class="card" id="page1">
-  <img src="batman-shhh.png" alt="Confidential">
+  <img src="batman-shhh.png">
   <h1>Confidential Site</h1>
   <p>Security clearance required</p>
-
   <p><strong>Are you Sammy’s girl?</strong></p>
-
-  <button id="girlYes" onclick="yesGirl()">Yes</button>
-  <button id="girlNo" class="secondary" onclick="noGirl()">No</button>
-
+  <button onclick="yesGirl()">Yes</button>
+  <button class="secondary" onclick="noGirl()">No</button>
   <div class="error" id="girlMsg"></div>
 </div>
 
@@ -117,7 +139,6 @@
   <h1>Security Question</h1>
   <p>What’s Sammy’s favorite nickname?</p>
   <input type="password" id="nickname" placeholder="Your answer">
-  <br>
   <button onclick="checkNickname()">Submit</button>
   <div class="error" id="nickError"></div>
 </div>
@@ -132,12 +153,9 @@
 
 <!-- PAGE 4 -->
 <div class="card hidden" id="page4">
-  <img src="batman-shhh.png" alt="Shhh">
+  <img src="batman-shhh.png">
   <h1>Shhh 🤫</h1>
-  <p>
-    Before you choose…<br>
-    I’d like to give you 5 reasons ❤️
-  </p>
+  <p>Before you choose…<br>I’d like to give you 5 reasons ❤️</p>
   <button onclick="nextReason()">Okay</button>
 </div>
 
@@ -149,12 +167,32 @@
   <button onclick="nextReason()">Okay</button>
 </div>
 
-<!-- FINAL -->
-<div class="card hidden" id="finalPage">
-  <img src="final-cute.png">
+<!-- FINAL QUESTION -->
+<div class="card hidden" id="finalQuestion">
   <h1>Will you be my Valentine? ❤️</h1>
-  <button id="yes">Yes</button>
-  <button id="no">No</button>
+  <button onclick="accept()">Yes</button>
+  <button id="noFinal">No</button>
+</div>
+
+<!-- ACCEPTED -->
+<div class="card hidden" id="acceptedPage">
+  <img src="certificate.png">
+  <h1 class="fade">You’re officially my Valentine ❤️</h1>
+  <img src="cute.gif">
+  <p class="fade delay">
+    I know I joke a lot, but choosing you isn’t a joke.<br>
+    I chose you long before this page existed.<br>
+    Thank you for being mine.
+  </p>
+  <button onclick="goFinal()">Continue ❤️</button>
+</div>
+
+<!-- FINAL LOVE -->
+<div class="card hidden" id="finalLove">
+  <img src="certificate.png">
+  <img src="cute.gif">
+  <button id="heartBtn">❤️</button>
+  <p class="corner-text">See you on Valentine’s Day</p>
 </div>
 
 <audio id="bgMusic" loop>
@@ -162,82 +200,84 @@
 </audio>
 
 <script>
-  const music = document.getElementById("bgMusic");
-  let reasonIndex = -1;
-  let arrows = 0;
+const music = document.getElementById("bgMusic");
+let reasonIndex = -1;
 
-  const reasons = [
-    { img: "reason1.png", title: "Reason #1", text: "I already act like your Valentine all year 🙄. Valentine’s Day just makes it official." },
-    { img: "reason2.png", title: "Reason #2", text: "BECAUSE NOBODY LOVES YOU LIKE I DO 😠" },
-    { img: "reason3.png", title: "Reason #3", text: "My heart literally refuses to pick anyone else ❤️" },
-    { img: "reason4.png", title: "Reason #4", text: "I’m already yours, so choosing me just makes sense." },
-    { img: "reason5.png", title: "Reason #5", text: "I’ll spoil you with attention, love, chaos and gifts — I’m going ALL OUT." }
-  ];
+const reasons = [
+  { img: "reason1.png", title: "Reason #1", text: "I already act like your Valentine all year 🙄." },
+  { img: "reason2.png", title: "Reason #2", text: "Because nobody loves you like I do 😠" },
+  { img: "reason3.png", title: "Reason #3", text: "My heart refuses to pick anyone else ❤️" },
+  { img: "reason4.png", title: "Reason #4", text: "I’m already yours, so choosing me makes sense." },
+  { img: "reason5.png", title: "Reason #5", text: "I’m going ALL OUT with love, chaos & gifts." }
+];
 
-  function yesGirl() {
-    page1.classList.add("hidden");
-    page2.classList.remove("hidden");
+function yesGirl() {
+  page1.classList.add("hidden");
+  page2.classList.remove("hidden");
+}
+
+function noGirl() {
+  girlMsg.textContent = "Access denied 🚫 This site is only for one special person.";
+}
+
+function checkNickname() {
+  if (nickname.value.toLowerCase() === "pookie cookie") {
+    page2.classList.add("hidden");
+    page3.classList.remove("hidden");
+    music.volume = 0.25;
+    music.play();
+    setTimeout(() => {
+      page3.classList.add("hidden");
+      page4.classList.remove("hidden");
+    }, 5000);
+  } else {
+    nickError.textContent = "Incorrect answer";
   }
+}
 
-  function noGirl() {
-    girlMsg.textContent = "Access denied 🚫 This site is only for one special person.";
-    document.getElementById("girlYes").disabled = true;
-    document.getElementById("girlNo").disabled = true;
+function nextReason() {
+  if (reasonIndex === -1) {
+    page4.classList.add("hidden");
+    reasonPage.classList.remove("hidden");
   }
-
-  function checkNickname() {
-    if (nickname.value.toLowerCase() === "pookie cookie") {
-      page2.classList.add("hidden");
-      page3.classList.remove("hidden");
-
-      music.volume = 0.25;
-      music.play();
-
-      setTimeout(() => {
-        page3.classList.add("hidden");
-        page4.classList.remove("hidden");
-      }, 5000);
-    } else {
-      nickError.textContent = "Incorrect answer";
-    }
+  reasonIndex++;
+  if (reasonIndex < reasons.length) {
+    reasonImg.src = reasons[reasonIndex].img;
+    reasonTitle.textContent = reasons[reasonIndex].title;
+    reasonText.textContent = reasons[reasonIndex].text;
+  } else {
+    reasonPage.classList.add("hidden");
+    finalQuestion.classList.remove("hidden");
   }
+}
 
-  function nextReason() {
-    if (reasonIndex === -1) {
-      page4.classList.add("hidden");
-      reasonPage.classList.remove("hidden");
-    }
+document.getElementById("noFinal").onclick = () => {
+  noFinal.style.left = Math.random() * 250 + "px";
+  noFinal.style.top = Math.random() * 150 + "px";
+};
 
-    reasonIndex++;
+function accept() {
+  finalQuestion.classList.add("hidden");
+  acceptedPage.classList.remove("hidden");
+}
 
-    if (reasonIndex < reasons.length) {
-      reasonImg.src = reasons[reasonIndex].img;
-      reasonTitle.textContent = reasons[reasonIndex].title;
-      reasonText.textContent = reasons[reasonIndex].text;
-    } else {
-      reasonPage.classList.add("hidden");
-      finalPage.classList.remove("hidden");
-    }
+function goFinal() {
+  acceptedPage.classList.add("hidden");
+  finalLove.classList.remove("hidden");
+}
+
+document.getElementById("heartBtn").onclick = () => {
+  for (let i = 0; i < 30; i++) {
+    const c = document.createElement("div");
+    c.textContent = "🎉";
+    c.style.position = "fixed";
+    c.style.left = Math.random() * window.innerWidth + "px";
+    c.style.top = "-20px";
+    c.style.animation = "fall 2s linear";
+    document.body.appendChild(c);
+    setTimeout(() => c.remove(), 2000);
   }
-
-  const noBtn = document.getElementById("no");
-  const yesBtn = document.getElementById("yes");
-
-  noBtn.addEventListener("click", () => {
-    noBtn.style.left = Math.random() * 250 + "px";
-    noBtn.style.top = Math.random() * 150 + "px";
-
-    yesBtn.style.transform = `scale(${1 + arrows * 0.15})`;
-
-    const arrow = document.createElement("div");
-    arrow.className = "arrow";
-    arrow.textContent = "➡️";
-    arrow.style.left = Math.random() * 300 + "px";
-    arrow.style.top = Math.random() * 200 + "px";
-    finalPage.appendChild(arrow);
-
-    arrows++;
-  });
+};
 </script>
 
 </body>
