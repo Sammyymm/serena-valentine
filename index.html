@@ -23,7 +23,7 @@ body {
   padding: 35px 30px;
   border-radius: 24px;
   box-shadow: 0 25px 50px rgba(0,0,0,0.25);
-  max-width: 430px;
+  max-width: 440px;
   width: 90%;
   text-align: center;
   position: relative;
@@ -32,7 +32,6 @@ body {
 .hidden { display: none; }
 
 h1 { color: #e63946; }
-
 p { font-size: 17px; color: #444; }
 
 input {
@@ -83,25 +82,38 @@ img {
   position: absolute;
 }
 
+/* Fade-in */
 .fade {
   opacity: 0;
   animation: fadeIn 2s forwards;
 }
-
-.fade.delay {
-  animation-delay: 1.5s;
-}
+.fade.delay { animation-delay: 1.5s; }
 
 @keyframes fadeIn {
   to { opacity: 1; }
 }
 
+/* Heart button */
 #heartBtn {
-  font-size: 40px;
-  background: none;
+  font-size: 55px;
+  background: linear-gradient(135deg, #ff4d6d, #ff758f);
   border: none;
+  border-radius: 50%;
+  width: 90px;
+  height: 90px;
   cursor: pointer;
-  margin-top: 20px;
+  box-shadow: 0 10px 25px rgba(255, 77, 109, 0.4);
+  animation: pulse 1.5s infinite;
+}
+
+#heartBtn:active {
+  transform: scale(0.9);
+}
+
+@keyframes pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.08); }
+  100% { transform: scale(1); }
 }
 
 .corner-text {
@@ -112,6 +124,7 @@ img {
   color: #999;
 }
 
+/* Confetti */
 @keyframes fall {
   to {
     transform: translateY(100vh);
@@ -129,8 +142,8 @@ img {
   <h1>Confidential Site</h1>
   <p>Security clearance required</p>
   <p><strong>Are you Sammy’s girl?</strong></p>
-  <button onclick="yesGirl()">Yes</button>
-  <button class="secondary" onclick="noGirl()">No</button>
+  <button id="girlYes" onclick="yesGirl()">Yes</button>
+  <button id="girlNo" class="secondary" onclick="noGirl()">No</button>
   <div class="error" id="girlMsg"></div>
 </div>
 
@@ -170,7 +183,7 @@ img {
 <!-- FINAL QUESTION -->
 <div class="card hidden" id="finalQuestion">
   <h1>Will you be my Valentine? ❤️</h1>
-  <button onclick="accept()">Yes</button>
+  <button id="yesFinal" onclick="accept()">Yes</button>
   <button id="noFinal">No</button>
 </div>
 
@@ -202,6 +215,7 @@ img {
 <script>
 const music = document.getElementById("bgMusic");
 let reasonIndex = -1;
+let yesScale = 1;
 
 const reasons = [
   { img: "reason1.png", title: "Reason #1", text: "I already act like your Valentine all year 🙄." },
@@ -218,6 +232,7 @@ function yesGirl() {
 
 function noGirl() {
   girlMsg.textContent = "Access denied 🚫 This site is only for one special person.";
+  document.querySelectorAll("#page1 button").forEach(b => b.disabled = true);
 }
 
 function checkNickname() {
@@ -251,9 +266,11 @@ function nextReason() {
   }
 }
 
-document.getElementById("noFinal").onclick = () => {
+noFinal.onclick = () => {
   noFinal.style.left = Math.random() * 250 + "px";
   noFinal.style.top = Math.random() * 150 + "px";
+  yesScale += 0.15;
+  yesFinal.style.transform = `scale(${yesScale})`;
 };
 
 function accept() {
@@ -266,7 +283,7 @@ function goFinal() {
   finalLove.classList.remove("hidden");
 }
 
-document.getElementById("heartBtn").onclick = () => {
+heartBtn.onclick = () => {
   for (let i = 0; i < 30; i++) {
     const c = document.createElement("div");
     c.textContent = "🎉";
