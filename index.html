@@ -76,7 +76,6 @@ img {
   font-size: 15px;
 }
 
-/* Fade in */
 .fade {
   opacity: 0;
   animation: fadeIn 2s forwards;
@@ -87,37 +86,27 @@ img {
   to { opacity: 1; }
 }
 
-/* Final NO button */
 #noFinal {
   background: #ccc;
   color: #333;
   position: absolute;
 }
 
-/* Heart button */
 #heartBtn {
   font-size: 55px;
   background: linear-gradient(135deg, #ff4d6d, #ff758f);
-  border: none;
   border-radius: 50%;
   width: 90px;
   height: 90px;
+  border: none;
   cursor: pointer;
-  box-shadow: 0 10px 25px rgba(255, 77, 109, 0.4);
   animation: pulse 1.5s infinite;
 }
 
-#heartBtn:active {
-  transform: scale(0.9);
-}
-
 @keyframes pulse {
-  0% { transform: scale(1); }
   50% { transform: scale(1.08); }
-  100% { transform: scale(1); }
 }
 
-/* Love letters confetti */
 .love-letter {
   position: fixed;
   top: -40px;
@@ -126,7 +115,6 @@ img {
   color: #ff4d6d;
   animation: loveFall 3s ease-in forwards;
   pointer-events: none;
-  text-shadow: 0 4px 10px rgba(255, 77, 109, 0.4);
 }
 
 @keyframes loveFall {
@@ -148,7 +136,6 @@ img {
 
 <body>
 
-<!-- PAGE 1 -->
 <div class="card" id="page1">
   <img src="batman-shhh.png">
   <h1>Confidential Site</h1>
@@ -159,24 +146,20 @@ img {
   <div class="error" id="girlMsg"></div>
 </div>
 
-<!-- PAGE 2 -->
 <div class="card hidden" id="page2">
   <h1>Security Question</h1>
   <p>What’s Sammy’s favorite nickname?</p>
-  <input type="password" id="nickname" placeholder="Your answer">
+  <input type="password" id="nickname">
   <button onclick="checkNickname()">Submit</button>
   <div class="error" id="nickError"></div>
 </div>
 
-<!-- PAGE 3 -->
 <div class="card hidden" id="page3">
   <h1>Would you be my Valentine?</h1>
   <button disabled>Yes</button>
   <button disabled>No</button>
-  <p>…</p>
 </div>
 
-<!-- PAGE 4 -->
 <div class="card hidden" id="page4">
   <img src="batman-shhh.png">
   <h1>Shhh 🤫</h1>
@@ -184,7 +167,6 @@ img {
   <button onclick="nextReason()">Okay</button>
 </div>
 
-<!-- REASONS -->
 <div class="card hidden" id="reasonPage">
   <img id="reasonImg">
   <h1 id="reasonTitle"></h1>
@@ -192,27 +174,23 @@ img {
   <button onclick="nextReason()">Okay</button>
 </div>
 
-<!-- FINAL QUESTION -->
 <div class="card hidden" id="finalQuestion">
   <h1>Will you be my Valentine? ❤️</h1>
   <button id="yesFinal" onclick="accept()">Yes</button>
   <button id="noFinal">No</button>
 </div>
 
-<!-- ACCEPTED -->
 <div class="card hidden" id="acceptedPage">
   <img src="certificate.png">
   <h1 class="fade">You’re officially my Valentine ❤️</h1>
   <img src="cute.gif">
   <p class="fade delay">
-    I know I joke a lot, but choosing you isn’t a joke.<br>
     I chose you long before this page existed.<br>
     Thank you for being mine.
   </p>
   <button onclick="goFinal()">Continue ❤️</button>
 </div>
 
-<!-- FINAL LOVE -->
 <div class="card hidden" id="finalLove">
   <img src="certificate.png">
   <img src="cute.gif">
@@ -225,6 +203,7 @@ img {
 </audio>
 
 <script>
+const bgMusic = document.getElementById("bgMusic");
 let reasonIndex = -1;
 let yesScale = 1;
 
@@ -232,8 +211,8 @@ const reasons = [
   { img: "reason1.png", title: "Reason #1", text: "I already act like your Valentine all year 🙄." },
   { img: "reason2.png", title: "Reason #2", text: "Because nobody loves you like I do 😠" },
   { img: "reason3.png", title: "Reason #3", text: "My heart refuses to pick anyone else ❤️" },
-  { img: "reason4.png", title: "Reason #4", text: "I’m already yours, so choosing me makes sense." },
-  { img: "reason5.png", title: "Reason #5", text: "I’m going ALL OUT with love, chaos & gifts." }
+  { img: "reason4.png", title: "Reason #4", text: "I’m already yours." },
+  { img: "reason5.png", title: "Reason #5", text: "I’m going ALL OUT for you." }
 ];
 
 function yesGirl() {
@@ -248,14 +227,19 @@ function noGirl() {
 
 function checkNickname() {
   if (nickname.value.toLowerCase() === "pookie cookie") {
+
+    bgMusic.volume = 0.25;
+    bgMusic.currentTime = 0;
+    bgMusic.play().catch(() => {});
+
     page2.classList.add("hidden");
     page3.classList.remove("hidden");
-    bgMusic.volume = 0.25;
-    bgMusic.play();
+
     setTimeout(() => {
       page3.classList.add("hidden");
       page4.classList.remove("hidden");
     }, 5000);
+
   } else {
     nickError.textContent = "Incorrect answer";
   }
