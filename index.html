@@ -76,13 +76,7 @@ img {
   font-size: 15px;
 }
 
-#noFinal {
-  background: #ccc;
-  color: #333;
-  position: absolute;
-}
-
-/* Fade-in */
+/* Fade in */
 .fade {
   opacity: 0;
   animation: fadeIn 2s forwards;
@@ -91,6 +85,13 @@ img {
 
 @keyframes fadeIn {
   to { opacity: 1; }
+}
+
+/* Final NO button */
+#noFinal {
+  background: #ccc;
+  color: #333;
+  position: absolute;
 }
 
 /* Heart button */
@@ -116,20 +117,31 @@ img {
   100% { transform: scale(1); }
 }
 
+/* Love letters confetti */
+.love-letter {
+  position: fixed;
+  top: -40px;
+  font-size: 42px;
+  font-weight: bold;
+  color: #ff4d6d;
+  animation: loveFall 3s ease-in forwards;
+  pointer-events: none;
+  text-shadow: 0 4px 10px rgba(255, 77, 109, 0.4);
+}
+
+@keyframes loveFall {
+  to {
+    transform: translateY(100vh);
+    opacity: 0;
+  }
+}
+
 .corner-text {
   position: absolute;
   bottom: 15px;
   right: 20px;
   font-size: 13px;
   color: #999;
-}
-
-/* Confetti */
-@keyframes fall {
-  to {
-    transform: translateY(100vh);
-    opacity: 0;
-  }
 }
 </style>
 </head>
@@ -142,8 +154,8 @@ img {
   <h1>Confidential Site</h1>
   <p>Security clearance required</p>
   <p><strong>Are you Sammy’s girl?</strong></p>
-  <button id="girlYes" onclick="yesGirl()">Yes</button>
-  <button id="girlNo" class="secondary" onclick="noGirl()">No</button>
+  <button onclick="yesGirl()">Yes</button>
+  <button class="secondary" onclick="noGirl()">No</button>
   <div class="error" id="girlMsg"></div>
 </div>
 
@@ -213,7 +225,6 @@ img {
 </audio>
 
 <script>
-const music = document.getElementById("bgMusic");
 let reasonIndex = -1;
 let yesScale = 1;
 
@@ -239,8 +250,8 @@ function checkNickname() {
   if (nickname.value.toLowerCase() === "pookie cookie") {
     page2.classList.add("hidden");
     page3.classList.remove("hidden");
-    music.volume = 0.25;
-    music.play();
+    bgMusic.volume = 0.25;
+    bgMusic.play();
     setTimeout(() => {
       page3.classList.add("hidden");
       page4.classList.remove("hidden");
@@ -284,16 +295,18 @@ function goFinal() {
 }
 
 heartBtn.onclick = () => {
-  for (let i = 0; i < 30; i++) {
-    const c = document.createElement("div");
-    c.textContent = "🎉";
-    c.style.position = "fixed";
-    c.style.left = Math.random() * window.innerWidth + "px";
-    c.style.top = "-20px";
-    c.style.animation = "fall 2s linear";
-    document.body.appendChild(c);
-    setTimeout(() => c.remove(), 2000);
-  }
+  const phrase = "I LOVE YOU";
+  [...phrase].forEach((char, i) => {
+    if (char === " ") return;
+    const letter = document.createElement("div");
+    letter.className = "love-letter";
+    letter.textContent = char;
+    letter.style.left =
+      window.innerWidth / 2 + (Math.random() * 300 - 150) + "px";
+    letter.style.animationDelay = `${i * 0.1}s`;
+    document.body.appendChild(letter);
+    setTimeout(() => letter.remove(), 3000);
+  });
 };
 </script>
 
