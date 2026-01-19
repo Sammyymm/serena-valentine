@@ -60,11 +60,6 @@ button.secondary {
   color: #333;
 }
 
-button:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
-}
-
 img {
   width: 140px;
   margin-bottom: 15px;
@@ -73,13 +68,13 @@ img {
 .error {
   color: #e63946;
   margin-top: 12px;
-  font-size: 15px;
 }
 
 .fade {
   opacity: 0;
   animation: fadeIn 2s forwards;
 }
+
 .fade.delay { animation-delay: 1.5s; }
 
 @keyframes fadeIn {
@@ -198,12 +193,14 @@ img {
   <p class="corner-text">See you on Valentine’s Day</p>
 </div>
 
-<audio id="background-music" loop>
-  <source src="https://files.catbox.moe/i2josb.mp3" type="audio/mp3">
+<!-- 🎵 BACKGROUND MUSIC -->
+<audio id="bgMusic" loop preload="auto">
+  <source src="https://files.catbox.moe/i2josb.mp3" type="audio/mpeg">
 </audio>
 
 <script>
 const bgMusic = document.getElementById("bgMusic");
+
 let reasonIndex = -1;
 let yesScale = 1;
 
@@ -228,7 +225,7 @@ function noGirl() {
 function checkNickname() {
   if (nickname.value.toLowerCase() === "pookie cookie") {
 
-    bgMusic.volume = 0.25;
+    bgMusic.volume = 0.35;
     bgMusic.currentTime = 0;
     bgMusic.play().catch(() => {});
 
